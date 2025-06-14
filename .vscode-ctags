@@ -1,0 +1,31 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/sac1802/Documents/Materials_Study/Kernel-Dev/Videos/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	//
+DEVICE_NAME	labs/01-solidus/solidus_module.c	/^#define DEVICE_NAME /;"	d	file:
+KDIR	labs/01-solidus/Makefile	/^KDIR := \/lib\/modules\/$(shell uname -r)\/build$/;"	m
+PWD	labs/01-solidus/Makefile	/^PWD := $(shell pwd)$/;"	m
+all	labs/01-solidus/Makefile	/^all: $/;"	t
+clean	labs/01-solidus/Makefile	/^clean:$/;"	t
+data	labs/01-solidus/solidus_module.c	/^    char data[100];$/;"	m	struct:fake_device	typeref:typename:char[100]	file:
+dev_num	labs/01-solidus/solidus_module.c	/^dev_t dev_num;$/;"	v	typeref:typename:dev_t
+device_close	labs/01-solidus/solidus_module.c	/^static int device_close(struct inode *inode, struct file *file) {$/;"	f	typeref:typename:int	file:
+device_open	labs/01-solidus/solidus_module.c	/^static int device_open(struct inode *inode, struct file *file) {$/;"	f	typeref:typename:int	file:
+device_read	labs/01-solidus/solidus_module.c	/^static ssize_t device_read(struct file *filp, char *buffer, size_t len, loff_t *offset) {$/;"	f	typeref:typename:ssize_t	file:
+device_write	labs/01-solidus/solidus_module.c	/^static ssize_t device_write(struct file *filp, const char *buff, size_t len, loff_t *off) {$/;"	f	typeref:typename:ssize_t	file:
+driver_entry	labs/01-solidus/solidus_module.c	/^static int driver_entry(void){$/;"	f	typeref:typename:int	file:
+driver_exit	labs/01-solidus/solidus_module.c	/^static void driver_exit(void){$/;"	f	typeref:typename:void	file:
+fake_device	labs/01-solidus/solidus_module.c	/^struct fake_device{$/;"	s	file:
+fops	labs/01-solidus/solidus_module.c	/^static struct file_operations fops = {$/;"	v	typeref:struct:file_operations	file:
+major_number	labs/01-solidus/solidus_module.c	/^int major_number;$/;"	v	typeref:typename:int
+my_cdev	labs/01-solidus/solidus_module.c	/^struct cdev *my_cdev;$/;"	v	typeref:struct:cdev *
+ret	labs/01-solidus/solidus_module.c	/^int ret;$/;"	v	typeref:typename:int
+sem	labs/01-solidus/solidus_module.c	/^    struct semaphore sem;$/;"	m	struct:fake_device	typeref:struct:semaphore	file:
+virtual_device	labs/01-solidus/solidus_module.c	/^} virtual_device;$/;"	v	typeref:struct:fake_device
