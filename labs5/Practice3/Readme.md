@@ -1,31 +1,47 @@
-### 🔧 **Práctica: Driver con contador de accesos y comando RESET**
+# Simple Character Driver Practice – Read Counter and RESET Command
 
-#### 🧠 ¿Qué debe hacer el driver?
+This kernel module is a basic Linux character device driver created for practice. When loaded, it registers a character device named `driver_practice`, which can be accessed through a device file (e.g., `/dev/new_char_driver`).
 
-Crea un driver de carácter que:
+The main feature of this module is that it keeps track of how many times the device has been read, and it updates the device status based on write commands.
 
-1. Lleve un **contador** de cuántas veces se ha leído el dispositivo.
-2. Al hacer `cat /dev/practice`, se debe mostrar el mensaje actual y el número de accesos.
-3. Si escribes el comando especial `"RESET"`, el contador se reinicia a cero y muestra un mensaje en `dmesg`.
+### How it works
 
----
-
-#### ✍️ Requisitos
-
-* Implementa `.read` y `.write` como ya lo hiciste.
-* Declara una variable global `static int access_count = 0;`
-* En la función `.read`, **incrementa el contador** y devuelve el mensaje con el número de lecturas, por ejemplo:
+* Every time the device is **read** (using `cat`), it returns a message like:
 
   ```
   Status: DEVICE ON
-  Reads: 3
+  Reads: <number>
   ```
-* En la función `.write`, si se detecta que el usuario escribió `"RESET"`, reinicia el contador a 0 y cambia el estado a `"DEVICE RESET"`.
 
----
+  The `Reads` counter increments with each read operation, allowing you to see how many times the device has been accessed.
 
-#### 💡 Tip Extra
+* You can also send specific **commands** to the device by writing to it. For example:
 
-Para formatear el mensaje combinado (`status + contador`), puedes usar `snprintf()` en una variable `char output[64]`.
+  ```bash
+  echo "RESET" > /dev/new_char_driver
+  ```
 
----
+  This command resets the read counter to `0` and updates the internal status to `DEVICE RESET`. However, when reading again, it will display "DEVICE ON" because the read operation always sets the status to that message.
+
+### Example session
+
+```bash
+$ cat /dev/new_char_driver
+Status: DEVICE ON
+Reads: 0
+
+$ cat /dev/new_char_driver
+Status: DEVICE ON
+Reads: 1
+
+$ echo "RESET" > /dev/new_char_driver
+
+$ cat /dev/new_char_driver
+Status: DEVICE ON
+Reads: 0
+```
+
+This practice module helps understand how read/write operations work in character drivers, how to communicate from user space to kernel space using `copy_from_user()` and `copy_to_user()`, and how to maintain internal device state.
+
+
+![alt text](./image/image.png)
