@@ -1,1 +1,0 @@
-savedcmd_/home/sac1802/Documents/Materials_Study/Kernel-Dev/Videos/labs6/Practice4/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/sac1802/Documents/Materials_Study/Kernel-Dev/Videos/labs6/Practice4/Module.symvers -T /home/sac1802/Documents/Materials_Study/Kernel-Dev/Videos/labs6/Practice4/modules.order -i Module.symvers -e 
