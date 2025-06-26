@@ -1,53 +1,80 @@
-### 🧠 **Reto: Historial de estados en un driver de caracteres**
+# Status History Character Driver – Linux Kernel Module
 
-#### 📝 Descripción:
+This kernel module is a character device driver created for practice purposes. It provides a virtual device named `status_history`, which stores a fixed number of status messages (up to 5) written by the user.
 
-Vas a crear un driver de caracteres que, además de mostrar el estado actual del dispositivo, mantenga un **historial de los últimos 5 mensajes** escritos por el usuario. Cada vez que escribas algo con `echo`, el mensaje se guarda en un pequeño buffer circular de 5 posiciones. Cuando hagas `cat`, el driver debe mostrar todos los mensajes guardados, del más nuevo al más viejo.
+Each time a message is written to the device file (`/dev/status_history`), it is saved into a circular buffer. When reading from the device, the driver returns the full history of the most recent 5 status messages, preserving their order of insertion.
 
-#### 🛠️ Objetivos del reto:
+## 🔧 Functionality
 
-* Usar un arreglo de strings dentro del kernel.
-* Implementar un buffer circular simple.
-* Mostrar múltiples líneas en una lectura (`read`).
-* Reforzar el uso de `copy_from_user`, `copy_to_user`, `snprintf`, offsets, etc.
+* **Write operation**:
+  When a string is written to the device (e.g., using `echo`), it is stored in a buffer. The buffer holds the 5 most recent messages. When the buffer is full, the oldest message is overwritten (circular behavior).
 
-#### 🧪 Ejemplo de uso:
+* **Read operation**:
+  When the device is read (e.g., using `cat`), the full list of stored messages is printed in order (oldest to newest).
 
-```bash
-echo "Hello" > /dev/history_dev
-echo "System ON" > /dev/history_dev
-echo "Charging..." > /dev/history_dev
-cat /dev/history_dev
-```
+* **Output to kernel log**:
+  Each read/write operation prints debug messages to the kernel log using `printk()`.
 
-**Salida esperada:**
-
-```
-Charging...
-System ON
-Hello
-(empty)
-(empty)
-```
-
-Si luego escribes otros dos:
+## 💻 Example usage
 
 ```bash
-echo "Battery full" > /dev/history_dev
-echo "Disconnected" > /dev/history_dev
-cat /dev/history_dev
+# Insert the module and create the device file (assuming major number 510 for example)
+sudo insmod status_history.ko
+sudo mknod /dev/status_history c 510 0
+sudo chmod 666 /dev/status_history
 ```
 
-**Salida esperada:**
+### Writing status messages
+
+```bash
+echo "First status" > /dev/status_history
+echo "Second status" > /dev/status_history
+echo "Third status" > /dev/status_history
+echo "Fourth status" > /dev/status_history
+echo "Fifth status" > /dev/status_history
+```
+
+### Reading the device
+
+```bash
+cat /dev/status_history
+```
+
+**Output:**
 
 ```
-Disconnected
-Battery full
-Charging...
-System ON
-Hello
+First status
+Second status
+Third status
+Fourth status
+Fifth status
 ```
 
----
+Now, write a new status, exceeding the buffer size:
 
-Este reto refuerza la lógica de estructuras de datos, manejo de memoria del kernel (con punteros), `read` con múltiples líneas, y cómo simular comportamientos útiles sin salirte de lo que has aprendido.
+```bash
+echo "Sixth status" > /dev/status_history
+cat /dev/status_history
+```
+
+**Output:**
+
+```
+Sixth status
+Second status
+Third status
+Fourth status
+Fifth status
+```
+
+As shown, the oldest message ("First status") has been overwritten by the newest one ("Sixth status").
+
+## 📦 Summary
+
+This module demonstrates:
+
+* How to implement a circular buffer for string storage in the kernel
+* How to manage read/write operations in a character driver
+* Use of basic memory handling and user-kernel data transfer with `copy_from_user()` and `copy_to_user()`
+* Logging kernel activity with `printk()`
+
