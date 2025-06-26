@@ -6,6 +6,8 @@
 #include <linux/string.h>
 
 #define DEVICE_NAME "status_history"
+#define MAX_ITEM 5
+#define MAX_LEN  32
 
 static struct {
     dev_t devnum;
@@ -13,7 +15,7 @@ static struct {
 }device_practice;
 
 static char device_status[32] = "NOT STATUS\n";
-static char *history_status = NULL;
+static char history_status[MAX_ITEM][MAX_LEN] = {0};
 
 static ssize_t file_read(struct file *file, char __user *buf, int length, off_t *offset){
     printk(KERN_INFO "Read file\n");
