@@ -61,4 +61,4 @@ static void practice_module_exit(void){
 }
 
 module_init(practice_module_init);
-module_exit(practice_module_exit)module_exit(practice_module_exit);
+module_exit(practice_module_exit);
